@@ -1,0 +1,89 @@
+@import ".././utils/variables";
+@import ".././utils/mixins";
+@import ".././components/animations";
+@import "../../.././node_modules/bootstrap/scss/bootstrap.scss";
+
+header {
+    background-color: $color-primary;
+    display:flex;
+}
+.navheader { 
+    position: relative;
+    left: 75%;
+    & a:link {
+        color: black;
+    }
+    & a:hover {
+        @include animationgrow;
+    }
+    & a:visited{
+        color: inherit;
+    }
+    & li{
+        font-size: 1.2em;
+        color: black;
+    }
+    & i {
+        color: $color-secondary;
+        margin-left: 30px;
+        margin-right: 10px;
+    }
+
+}
+#produitList
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+.cartplus:hover{
+    @include animationgrow;
+}
+
+.cardimg {
+    height: 233px;
+}
+.cardstyling {
+    height: 370px;
+    z-index: 0;
+}
+.cartplus{
+    position: absolute;
+    right: 9%;
+    top: 7%;
+    font-size: 1.28rem;
+    background-color: #0d6efd;
+    color: white;
+    height: 40px;
+    width: 40px;
+    padding-top: 10px;
+    border-radius: 50px;
+    z-index: 1000;
+    
+}
+
+.logo {
+    height: 70px;
+    margin-left: 45px;
+}
+body {
+    margin: 0;
+}
+
+@media screen and (max-width:719px)
+{
+    .navheader { 
+         left: 30%; 
+    }
+    .cardstyling{
+        height: 556px;
+    }
+    .cardimg {
+        height: 404px;
+    }
+}
+
+@media screen and (min-width:720px) and (max-width:1366px)
+{
+}

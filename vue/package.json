@@ -1,0 +1,23 @@
+{
+  "name": "orinoco",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {    
+    "sass": "sass --watch assets/sass/import.scss:assets/CSS/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lelepg22/AlexandreGaglianone_5_19062021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lelepg22/AlexandreGaglianone_5_19062021/issues"
+  },
+  "homepage": "https://github.com/lelepg22/AlexandreGaglianone_5_19062021#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "uuid": "^3.3.2"
+  }
+}

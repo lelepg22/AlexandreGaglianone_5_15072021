@@ -1,0 +1,4 @@
+@mixin animationgrow {
+animation: grow 200ms ease-in-out;
+animation-fill-mode:both;
+}
