@@ -4,7 +4,7 @@ function cardPanier(product, color, quantity) {
   var html = ` 
                   <li class="oneItemPanier"> 
                       <img src="${product.imageUrl}" alt="${product.name}" class='card-img-top cardimgpanier'> </img>
-                       <span class= 'textPanier'> ${product.name} - ${color}  </span> <span class='qtyPanier'><span class="prodUni">€ ${product.price} un.</span> qte. <span class="qty">${quantity}</span>    <i class="iconMinusPlus fas fa-plus"> <i class="iconMinusPlus fas fa-minus"></i> </i>  € <span class="productTotal">${prixItem}</span></span>
+                       <span class= 'textPanier'> ${product.name} - ${color}  </span> <span class='qtyPanier'><span class="prodUni">€ ${product.price} un.</span> qte. <span class="qty">${quantity}</span>    <i class="iconMinusPlus fas fa-plus"> <i class="iconMinusPlus fas fa-minus"></i> </i>  € <span class="productTotal" data-id="${product._id}">${prixItem}</span></span>
                   </li>    
                                       
                 
@@ -12,6 +12,9 @@ function cardPanier(product, color, quantity) {
            `;
   return html;
 }
+if (localStorage.cart.length <= 2){alert('Panier vide!');  window.location.href = "../index.html" }
+else if (localStorage.cart != undefined) {console.log('Panier OK')}
+else{alert('Panier vide!');  window.location.href = "../index.html" }
 
 let myCartStored = JSON.parse(localStorage.cart);
 myPanierChange = [...myCartStored];
@@ -26,7 +29,7 @@ function productCount(c, d) {
   } else if (myArray[0][d] == undefined) {
     return productTotal;
   } else {
-    if (c == myArray[0][d].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, "")) {
+    if (c == myArray[0][d].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, "")) {      
       myArray[0].splice(d, 1);
       productTotal = ++productTotal;
       d = 0;
@@ -108,8 +111,15 @@ async function createPanierCard() {
 
       if (
         myCartStored[x].substring(9, 15).indexOf(myItemsList.name.substring(0, 5)) != -1
-      ) {
+      ) {        
         productQuantity(myCartStored[x].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, ""));
+
+        function idPushing (times){ for (var number = 1; number <= times; number++) {
+        myArrayProducts.push(myItemsList._id)}
+        }
+        
+        idPushing(productTotal);
+
 
         function findColor(z) {
           if (myItemsList.colors[z] == undefined) {
@@ -222,6 +232,7 @@ function addOrRemovePanier(pathClicked) {
     if (myPanierChange[m] == undefined) {
       return 0;
     } else if (m == 0) { 
+      
             if (
         pathClicked.path[g].children[1].innerHTML.replace(/\s|-/g, "") ==
         myPanierChange[m]
@@ -233,13 +244,15 @@ function addOrRemovePanier(pathClicked) {
           '<i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i>'
         ) {          
           myPanierChange.splice(m, 1);
-          localStorage.cart = JSON.stringify(myPanierChange);
+          localStorage.cart = JSON.stringify(myPanierChange);    
+          
 
 
         } else if (
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-plus" aria-hidden="true"> <i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i> </i>'
         ) {
+          myArrayProducts.push(pathClicked.path[1].children[3].dataset.id)
           myPanierChange.push(myPanierChange[m]);
           localStorage.cart = JSON.stringify(myPanierChange);
           return 0;
@@ -257,13 +270,15 @@ function addOrRemovePanier(pathClicked) {
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i>'
         ) {  
+         
         myPanierChange.splice(m, 1);
-        localStorage.cart = JSON.stringify(myPanierChange);
+        localStorage.cart = JSON.stringify(myPanierChange);     
         }
         else if (
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-plus" aria-hidden="true"> <i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i> </i>'
         ) {
+          myArrayProducts.push(pathClicked.path[1].children[3].dataset.id)
           myPanierChange.push(myPanierChange[m])
           localStorage.cart = JSON.stringify(myPanierChange);
           return 0;
@@ -280,15 +295,13 @@ function addOrRemovePanier(pathClicked) {
     '<i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i>'
   ) {
     console.log("clicked minus");
-
-    if (localStorage.chiffrePanier >= 1) {
-      if (localStorage.chiffrePanier > 0) {
-        addPanierHeader(--localStorage.chiffrePanier);
-      }
-    } else {
-      addPanierHeader(0);
-      localStorage.chiffrePanier = getPanierCount;
+    function removeIdArray(k) {
+      if (myArrayProducts[k] == pathClicked.path[2].children[3].dataset.id){ myArrayProducts.splice(k,1) }
+      else if(myArrayProducts[k] != undefined ){ removeIdArray(++k) }
     }
+      removeIdArray(0)
+
+   
 
 
 
@@ -304,6 +317,17 @@ function addOrRemovePanier(pathClicked) {
     );
     let valueTotalPanierTxt = "Total €" + String(valueTotalPanier - valueUnity);
     let x = 0;
+    if (valueQty == 0) {
+      if (localStorage.chiffrePanier >= 1) {
+        addPanierHeader(++localStorage.chiffrePanier);
+      } else {
+        addPanierHeader(++getPanierCount);
+        localStorage.chiffrePanier = getPanierCount;
+      }
+  
+
+      window.location.reload();
+    }
 
     if (valueQty > 0) {
       pathClicked.path[2].children[3].innerHTML = valueTotalItem - valueUnity;
@@ -311,6 +335,14 @@ function addOrRemovePanier(pathClicked) {
       pathClicked.path[8].children[1].innerHTML = valueTotalPanierTxt;
       localStorage.total = valueTotalPanier - valueUnity;
       littleLoopPanier(0, 3);
+    }
+    if (localStorage.chiffrePanier >= 1) {
+      if (localStorage.chiffrePanier > 0) {
+        addPanierHeader(--localStorage.chiffrePanier);
+      }
+    } else {
+      addPanierHeader(0);
+      localStorage.chiffrePanier = getPanierCount;
     }
   } else if (
     pathClicked.path[0].outerHTML ==

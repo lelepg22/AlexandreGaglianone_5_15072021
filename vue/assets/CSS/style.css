@@ -66,7 +66,7 @@ body {
 
 #panierHeader {
   position: absolute;
-  margin-left: 48px;
+  margin-left: 44px;
   font-size: 1.3rem;
   margin-top: 8px;
   color: white;
@@ -109,8 +109,10 @@ body {
   justify-content: center;
 }
 #panierCard{
-  margin-left: 25%;
+  display: flex;
+  justify-content: center;
   width: 100%;
+  margin-bottom: 1%;
 }
 .cardimgpanier{
   width: 7% !important;
@@ -162,6 +164,21 @@ body {
   font-size: 0.8rem;
   margin-left: -2%;
 }
+
+#confirmationCard{
+  height: 301px;
+}
+#orderPage{
+  display: flex;
+    justify-content: center;
+    height: 301px;
+    line-height: 84px;
+}
+.orderPageText{
+  margin-top: 2%;
+}
+
+
 
 
 
@@ -7812,7 +7829,7 @@ textarea.form-control-lg {
   .mx-sm-0 {
     margin-right: 0 !important;
     margin-left: 0 !important;
-    height: 404px !important;
+    height: 345px !important;
     
   }
 

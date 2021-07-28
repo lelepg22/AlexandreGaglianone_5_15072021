@@ -40,6 +40,7 @@ function removeItemCart(item) { myCart.unshift(item) };
 
 
 
+if (localStorage.cart == undefined){ localStorage.cart = ""}
 
 //Cards
 

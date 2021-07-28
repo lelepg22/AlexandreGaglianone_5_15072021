@@ -1,6 +1,6 @@
 
 
-function cardProduit (product) { 
+function cardProduit (product) {
     var html = ` <div class='col-12 col-lg-6 col-xl-6 mx-5 mt-5 shadow '>
         <div class='card text-center cardstyling mx-sm-4 produitLink'> 
         <img src="${product.imageUrl}" alt="${product.name}"  class='card-img-top mx-sm-0   cardimg'>
@@ -15,7 +15,7 @@ function cardProduit (product) {
         </div>
                 
             </div> 
-            <span class "addFavorite" data-id=${product.id}>
+            <span class "addFavorite" data-id=${product._id}>
             <i class="fas fa-cart-plus cartplus cartpageproduit mx-sm-3"></i> 
             </span>
         </div> 

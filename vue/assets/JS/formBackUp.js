@@ -1,16 +1,14 @@
-
 let contactArray = [];
 let contactCommande = [];
-let myArrayProducts = [];
 var xhr = new XMLHttpRequest();
-localStorage.contactComplement = "";
-contact = { firstName: localStorage.contactPreNom, lastName: localStorage.contactNomFamille, adress: localStorage.contactAdresse + localStorage.contactComplement, 
-city: localStorage.contactVille, email: localStorage.contactEmail } ;
+localStorage.contactComplement = ""
+let contact = {commandeId:  `${Math. random()}` ,firstName: localStorage.contactPreNom, lastName: localStorage.contactNomFamille, email: localStorage.contactEmail,
+adresse: localStorage.contactAdresse + localStorage.contactComplement, city: localStorage.contactVille, total: localStorage.total} ;
 
 
     
 
-document.getElementById('commander').setAttribute("disabled", true);
+document.getElementById('commander').setAttribute("disabled", true)
 
 
 function prenomInput() {
@@ -83,112 +81,69 @@ function jeConfirmeInput() { if ( (document.getElementById('prenom').value != (u
     }   
 }
 else {alert("Formulaire incomplet, *champ Complément NON obligatoire ");
-  document.getElementById("gridCheck").checked = false;
+  document.getElementById("gridCheck").checked = false
 }
 
 }   
 
 
-// function commanderInput() {
-//     let products = ["5beaacd41c9d440000a57d97"]; console.log('rerere') ;if(document.querySelector('#gridCheck:checked') != null ) {
-    
-    
-//      console.log('vlavla');
-     
-    
-//      xhr.open("POST","http://localhost:3000/api/teddies/order", true);
+function commanderInput() { if(document.querySelector('#gridCheck:checked') != null ) {
+     xhr.open("POST","http://localhost:3000/api/teddies/order", true);
 
-//      xhr.setRequestHeader("Content-type", "application/json");
+    
 
-//      xhr.onreadystatechange = function () {
-//         if(xhr.readyState === 4 && xhr.status === 201) {
-//           console.log(xhr.responseText);}
-//         }
-//         //  products = [products]
-//         // contact = { Objet: { contact: { firstName: contact.firstName , lastName: contact.lastName , adress: contact.adress  ,city: contact.city ,email: contact.email}} }  
-//     //  alert("Numero Commande : " + contact.commandeId)
-//      var objectEnvoye = { products , contact: { firstName: "sqsqs" , lastName: "dqsdqs" , adress: "21 sss"  ,city: "tol" ,email: "lel@lel.kle"} };
-//      var baby = JSON.stringify(objectEnvoye);
-//      xhr.send(baby);     
-  
-   
-//   }
-//     else{ alert('Formulaire non confirme/valide!')}
-// }
-function commande(){
-    var products = ["5beaacd41c9d440000a57d97"];
-    var url = "http://localhost:3000/api/teddies/order";
-    // if (document.querySelector('#gridCheck:checked') != null) {
-        xhr.open("POST", url, true);
-        console.log(products);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 201) {
-                console.log(xhr.responseText);
-            }
+     xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);}
         }
-        var objectEnvoye = 
-        { products , contact: { firstName: "sqsqs" , lastName: "dqsdqs" , adress: "21 sss"  ,city: "tol" ,email: "lel@lel.kle"} };
-        var baby = JSON.stringify(objectEnvoye);   
-        xhr.send(baby);
-        return xhr.response;
+        
+     alert("Numero Commande : " + contact.commandeId)
+     xhr.send(myPanierChange && contact)
+     
+    debugger;
+
+   
+  }
+    else{ alert('Formulaire non confirme/valide!')}
 }
+    
 
 
 
 
-
-function prenomClick () {if(document.getElementById('prenom').value != ""){
+function prenomClick () {
     if (document.getElementById('prenom').value == localStorage.contactPreNom.replace(' Prenom : ', '') ) {document.getElementById('prenom').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-else{return 0}
-    }
+}
 
-function nomFamilleClick () {  if (document.getElementById('nomfamille').value != ""){
+function nomFamilleClick () {
     if (document.getElementById('nomfamille').value == localStorage.contactNomFamille.replace(' Nom Famille : ', '') ) {document.getElementById('nomfamille').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-    else{return 0}
 }
 
-function emailClick () {if (document.getElementById('inputEmail4').value  != ""){
+function emailClick () {
     if (document.getElementById('inputEmail4').value == localStorage.contactEmail.replace(' Email : ', '') ) {document.getElementById('inputEmail4').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-    else{return 0}
 }
 
-function adressClick () {if (document.getElementById('inputAddress').value != ""){
+function adressClick () {
     if (document.getElementById('inputAddress').value == localStorage.contactAdresse.replace(' Adresse : ', '') ) {document.getElementById('inputAddress').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-    else{return 0}
 }
 
-function complementClick () {if (document.getElementById('inputAddress2').value != ""){
+function complementClick () {
     if (document.getElementById('inputAddress2').value == localStorage.contactComplement.replace(' Complement : ', '') ) {document.getElementById('inputAddress2').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-    else{return 0}
-    
 }
 
-function villeClick () { if (document.getElementById('inputVille').value  != ""){
+function villeClick () {
     if (document.getElementById('inputVille').value == localStorage.contactVille.replace(' Ville : ', '') ) {document.getElementById('inputVille').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-    else{return 0}
-    
 }
 
-function codePostalClick () {if (document.getElementById('inputCodePostal').value != ""){
+function codePostalClick () {
     if (document.getElementById('inputCodePostal').value == localStorage.contactCodePostal.replace(' Code Postal : ', '') ) {document.getElementById('inputCodePostal').value = ''}
     document.getElementById("gridCheck").checked = false
-    }
-    else{return 0}
-    
 }
 
 
@@ -214,38 +169,4 @@ document.getElementById('inputCodePostal').addEventListener('change' ,codePostal
 document.getElementById('inputCodePostal').addEventListener('click' ,codePostalClick);
 
 document.getElementById('gridCheck').addEventListener('change' ,jeConfirmeInput);
-document.getElementById('commander').addEventListener('click' , function (event) {    
-    event.preventDefault();
-    console.log('eventdault');
-    let products = [...myArrayProducts];   
-    var url = "http://localhost:3000/api/teddies/order";
-
-    // if (document.querySelector('#gridCheck:checked') != null) {
-        console.log(url);
-
-        xhr.open("POST", url, true);
-        console.log(products);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 201) {             
-                   localStorage.confirmation = xhr.response;
-
-                localStorage.totalConf = localStorage.total;
-                console.log(xhr.responseText);
-                window.location.reload();
-            }
-        }
-        var objectEnvoye = 
-        { products , contact: contact };
-        var baby = JSON.stringify(objectEnvoye);   
-        xhr.send(baby);        
-        
-
-        // 
-        return xhr.response;
-        });
-    if (localStorage.confirmation != undefined){ window.location.href = "confirmation.html"};        
-
-      
-// })
+document.getElementById('commander').addEventListener('click' ,commanderInput);

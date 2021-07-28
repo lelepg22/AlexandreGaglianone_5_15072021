@@ -91,15 +91,16 @@ function addingProduits(params) {
  ;
 } 
 let myPanierChange =[]; 
-let setStorage =function storageData () {
-  if (localStorage.cart == undefined && myCart.length > 0){ localStorage.cart = JSON.stringify(myCart) } 
+function storageData () { console.log("functionActive")
+  
+  if (localStorage.cart == "" || undefined && myCart.length > 0){ localStorage.cart = JSON.stringify(myCart) } 
   else if(localStorage.cart != undefined && myCart.length == 0 ){localStorage.cart}
   else if(localStorage.cart != undefined || myPanierChange ){let a = JSON.parse(localStorage.cart);
     a.forEach(function (item) { myCart.push(item)})   
     localStorage.cart = JSON.stringify(myCart)}  
 }
 
-window.onbeforeunload = setStorage;
+window.onbeforeunload = storageData;
 
 
 
