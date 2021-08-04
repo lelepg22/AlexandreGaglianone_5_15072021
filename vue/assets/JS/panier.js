@@ -243,6 +243,7 @@ function addOrRemovePanier(pathClicked) {
         ) {
           myPanierChange.splice(m, 1);
           localStorage.cart = JSON.stringify(myPanierChange); //actualisation cart stocke
+          if(myPanierChange.length < 1 ){  window.location.reload()}
           return 0;
         } else if (
           pathClicked.path[0].outerHTML ==
@@ -268,6 +269,7 @@ function addOrRemovePanier(pathClicked) {
         ) {
           myPanierChange.splice(m, 1);
           localStorage.cart = JSON.stringify(myPanierChange);
+          if(myPanierChange.length < 1 ){  window.location.reload()}
           return 0;
         } else if (
           pathClicked.path[0].outerHTML ==
