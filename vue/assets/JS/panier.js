@@ -1,5 +1,5 @@
 //Card Html
-
+let productColour = "";
 function cardPanier(product, color, quantity) {
   var html = ` 
                   <li class="oneItemPanier"> 
@@ -12,24 +12,33 @@ function cardPanier(product, color, quantity) {
            `;
   return html;
 }
-if (localStorage.cart.length <= 2){alert('Panier vide!');  window.location.href = "../index.html" }
-else if (localStorage.cart != undefined) {console.log('Panier OK')}
-else{alert('Panier vide!');  window.location.href = "../index.html" }
+//Controle si panier est vide
+if (localStorage.cart.length <= 2) {
+  alert("Panier vide!");
+  window.location.href = "../index.html";
+} else if (localStorage.cart != undefined) {
+  console.log("Panier OK");
+} else {
+  alert("Panier vide!");
+  window.location.href = "../index.html";
+}
 
+//Recup Info Stocke
 let myCartStored = JSON.parse(localStorage.cart);
 myPanierChange = [...myCartStored];
 let myArray = [];
 let productTotal = 0;
 
-//Assembling and Calculating
+//Assemblage et Calcule
 
 function productCount(c, d) {
+  //Calcule la quantite de chaque item
   if (c == undefined) {
     return productTotal;
   } else if (myArray[0][d] == undefined) {
     return productTotal;
   } else {
-    if (c == myArray[0][d].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, "")) {      
+    if (c == myArray[0][d].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, "")) {
       myArray[0].splice(d, 1);
       productTotal = ++productTotal;
       d = 0;
@@ -37,24 +46,11 @@ function productCount(c, d) {
     } else if (c != myArray[0][d]) {
       productCount(c, ++d);
     }
-
-    //Found equal item on cart
-    // if(c != d) {
-
-    //         //Assembling each equal item in Temporary Arrays
-    //         function arraying(j){
-    //             if(tempArray != undefined) {
-    //                 if(tempArray[j] == undefined){ tempArray.push([myArray[0][c].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, ''), myArray[0][d].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, '')]) ;return tempArray}
-    //                 else if (tempArray[j][0] == myArray[0][c].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, '')) { tempArray[j].push(myArray[0][c].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, ''), myArray[0][d].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, ''))}
-    //                 else if(tempArray[j][0] != myArray[0][c].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, '')) { j++; arraying(j)}
-    //             }
-    //         }
-    //         arraying(0);
-    //     }
   }
 }
 
 function productQuantity(item) {
+  //caller pour productCount et Loop
   myArray.push(myCartStored);
 
   productCount(item, 0);
@@ -66,16 +62,18 @@ let j = -1;
 async function createPanierCard() {
   let products = await getAllTeddies();
 
-  function loopinCard(x, myItemsList, c) {
+  function loopinCard(x, myItemsList) {
     if (j <= -1) {
-      ++j;
-      
+      //Conditions pour le loop*, J Sera la condition pour definir quel item du array PRODUCTS(products = Items disponible 'teddies' API)
+      ++j; // et x determineras quel item du myCartStored  on est
     } else if (j > 5) {
       j = -1;
-      
-    } else if (j == 5) {++x; if(myCartStored[x] == undefined) {x=0}
+    } else if (j == 5) {
+      ++x;
+      if (myCartStored[x] == undefined) {
+        x = 0;
+      }
       j = 5;
-      
     } else if (j >= 0 && myCartStored[x] != undefined) {
       ++j;
     }
@@ -94,6 +92,7 @@ async function createPanierCard() {
     if (myCartStored[0] == undefined) {
       return 0;
     } else if (myCartStored[x] == undefined) {
+      // Loop conditions pour continuer a changer des items soit sur products soit sur myCartStored
       if (products[j] == undefined) {
         if (j == -1) {
           j = 0;
@@ -105,29 +104,39 @@ async function createPanierCard() {
       }
       loopinCard(0, products[j]);
     } else if (myCartStored[x] && myItemsList.name != undefined) {
+      // Trouve la color du produit commande par le client stocke en myCartStored
       let productColourGetter = myCartStored[x]
         .substring(25, 37)
         .replace(/\s|:|Color/g, "");
 
       if (
-        myCartStored[x].substring(9, 15).indexOf(myItemsList.name.substring(0, 5)) != -1
-      ) {        
+        myCartStored[x]
+          .substring(9, 15)
+          .indexOf(myItemsList.name.substring(0, 5)) != -1
+      ) {
+        // Calcule la Quantite de chaque item dans le panier
         productQuantity(myCartStored[x].replace(/\s|0|1|2|3|4|5|6|7|8|9/g, ""));
 
-        function idPushing (times){ for (var number = 1; number <= times; number++) {
-        myArrayProducts.push(myItemsList._id)}
+        function idPushing(times) {
+          for (var number = 1; number <= times; number++) {
+            // Creation de Array avec les ID  des produit commande
+            myArrayProducts.push(myItemsList._id);
+          }
         }
-        
+
         idPushing(productTotal);
 
-
         function findColor(z) {
+          // Comparateur de coleur du item du produit commande avec chaque coleur disponible pour le item dans le API
           if (myItemsList.colors[z] == undefined) {
+            //pour la creation du CARD
             return 0;
           } else if (x == undefined) {
-             loopinCard(0,products[0]);
+            loopinCard(0, products[0]);
           } else if (
-            myItemsList.colors[z].replace(/\s/g, "").indexOf(productColourGetter) != -1
+            myItemsList.colors[z]
+              .replace(/\s/g, "")
+              .indexOf(productColourGetter) != -1
           ) {
             productColour = myItemsList.colors[z];
             return productColour;
@@ -138,6 +147,7 @@ async function createPanierCard() {
 
         findColor(0);
 
+        // Calcule Total Panier
         prixItem = myItemsList.price * productTotal;
         if (localStorage.total == undefined) {
           localStorage.total = prixItem;
@@ -159,26 +169,23 @@ async function createPanierCard() {
             cardPanier(myItemsList, productColour, productTotal)
           );
       } else if (j == 5) {
-        j = 0; loopinCard(x,products[j])
-      } else if (myCartStored[x] != undefined) {++x;
-        if (myCartStored[x] != undefined) {--x;
-          loopinCard(x, products[j]);          
+        //Condition nescessaire pour Loop Efficace pour le vidange du myCartStored
+        j = 0;
+        loopinCard(x, products[j]);
+      } else if (myCartStored[x] != undefined) {
+        ++x;
+        if (myCartStored[x] != undefined) {
+          --x;
+          loopinCard(x, products[j]);
+        } else if (myCartStored.length > 0) {
+          loopinCard(0, products[j]);
         }
-        else if(myCartStored.length > 0){ loopinCard(0,products[j])}
       }
-      // {debugger; if(b == products[j]) {if (products[++j] != undefined ){loopinCard(0, products[++j])} else{ j = 0 ;loopinCard(x,products[j])} }}
     }
-    
   }
-  // async function baby () { if(myCartStored.length > 0){
-  //   while(myCartStored.length > 0) { let products = await getAllTeddies(); products.forEach( function (product) { loopinCard(0,0)
-                
-  //           } )
-  //       }
-  //   }
-  //   }
-  //   setInterval(baby, 3000);
+
   myCartStored.forEach(function (thing) {
+    // Lance loop
     for (let product of products) {
       loopinCard(0, product);
 
@@ -190,13 +197,11 @@ async function createPanierCard() {
       ) {
         continue;
       }
-      // myCartStored.forEach( function(v) { for (let product of products) {debugger;; loopinCard(0)} } )}
     }
   });
 
-  // setInterval(refreshCart, 1000);
-  //     function refreshCart () { debugger;
   if (myCartStored.length != 0) {
+    //Condition nescessaire pour Loop Efficace pour le vidange du myCartStored
     if (products[j] != undefined) {
       loopinCard(0, products[j]);
     } else {
@@ -207,13 +212,6 @@ async function createPanierCard() {
   }
 }
 
-// if(myCartStored.length > 0) { debugger;
-//     async function completePanier () {  let xuxu = await getAllTeddies()
-//     for (let go of xuxu) {
-
-//     }
-//     }
-
 if (myCartStored != undefined) {
   createPanierCard();
 }
@@ -222,18 +220,18 @@ function refreshTotal() {
   document.getElementById("totalCart").textContent =
     "Total  €  " + localStorage.total;
 }
-setTimeout(refreshTotal, 100);
+setTimeout(refreshTotal, 500); //Ajuste Total Panier
 
 //Event Listener Minus Plus
 
 function addOrRemovePanier(pathClicked) {
-  function littleLoopPanier(m, g) {  
-     
+  function littleLoopPanier(m, g) {
+    // Loop pour trouve items dans le Stockage le supprime ou ajout
+
     if (myPanierChange[m] == undefined) {
       return 0;
-    } else if (m == 0) { 
-      
-            if (
+    } else if (m == 0) {
+      if (
         pathClicked.path[g].children[1].innerHTML.replace(/\s|-/g, "") ==
         myPanierChange[m]
           .replace(/\s|Item|0|1|2|3|4|5|6|7|8|9|:|Color/g, "")
@@ -242,17 +240,15 @@ function addOrRemovePanier(pathClicked) {
         if (
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i>'
-        ) {          
+        ) {
           myPanierChange.splice(m, 1);
-          localStorage.cart = JSON.stringify(myPanierChange);    
-          
-
-
+          localStorage.cart = JSON.stringify(myPanierChange); //actualisation cart stocke
+          return 0;
         } else if (
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-plus" aria-hidden="true"> <i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i> </i>'
         ) {
-          myArrayProducts.push(pathClicked.path[1].children[3].dataset.id)
+          myArrayProducts.push(pathClicked.path[1].children[3].dataset.id);
           myPanierChange.push(myPanierChange[m]);
           localStorage.cart = JSON.stringify(myPanierChange);
           return 0;
@@ -269,25 +265,22 @@ function addOrRemovePanier(pathClicked) {
         if (
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i>'
-        ) {  
-         
-        myPanierChange.splice(m, 1);
-        localStorage.cart = JSON.stringify(myPanierChange);     
-        }
-        else if (
+        ) {
+          myPanierChange.splice(m, 1);
+          localStorage.cart = JSON.stringify(myPanierChange);
+          return 0;
+        } else if (
           pathClicked.path[0].outerHTML ==
           '<i class="iconMinusPlus fas fa-plus" aria-hidden="true"> <i class="iconMinusPlus fas fa-minus" aria-hidden="true"></i> </i>'
         ) {
-          myArrayProducts.push(pathClicked.path[1].children[3].dataset.id)
-          myPanierChange.push(myPanierChange[m])
+          myArrayProducts.push(pathClicked.path[1].children[3].dataset.id);
+          myPanierChange.push(myPanierChange[m]);
           localStorage.cart = JSON.stringify(myPanierChange);
           return 0;
-          
         }
-
-        
       }
-      littleLoopPanier(++m, g);    }
+      littleLoopPanier(++m, g);
+    }
   }
 
   if (
@@ -296,14 +289,16 @@ function addOrRemovePanier(pathClicked) {
   ) {
     console.log("clicked minus");
     function removeIdArray(k) {
-      if (myArrayProducts[k] == pathClicked.path[2].children[3].dataset.id){ myArrayProducts.splice(k,1) }
-      else if(myArrayProducts[k] != undefined ){ removeIdArray(++k) }
+      //actualisation array des ID
+      if (myArrayProducts[k] == pathClicked.path[2].children[3].dataset.id) {
+        myArrayProducts.splice(k, 1);
+      } else if (myArrayProducts[k] != undefined) {
+        removeIdArray(++k);
+      }
     }
-      removeIdArray(0)
+    removeIdArray(0);
 
-   
-
-
+    //Actualisation Valeur Total, quantite item et chiffre panier Header
 
     let valueUnity = parseInt(
       pathClicked.path[2].children[0].innerHTML.replace(/\s|€|un./g, "")
@@ -324,9 +319,8 @@ function addOrRemovePanier(pathClicked) {
         addPanierHeader(++getPanierCount);
         localStorage.chiffrePanier = getPanierCount;
       }
-  
 
-      window.location.reload();
+      window.location.reload(); //qty item = 0, refresh page
     }
 
     if (valueQty > 0) {
@@ -375,8 +369,6 @@ function addOrRemovePanier(pathClicked) {
     localStorage.total = valueTotalPanier + valueUnity;
     littleLoopPanier(0, 2);
   }
-
-  console.log(pathClicked);
 }
 document
   .getElementById("panierCard")
@@ -390,8 +382,4 @@ if (document.getElementById("totalCart").textContent == "Total  €  undefined")
   window.location.reload();
 }
 
-
-
 window.onbeforeunload = resetTotal();
-
-// { <p> <img src="${product.imageUrl}" alt="${product.name}" class='card-img-top mx-sm-0 cardimgpanier'></img> - ${product.name} - ${product.colour} x ${productQuantity} | <i class="fas fa-plus"> <i class="fas fa-minus"></i></i>   </p>}

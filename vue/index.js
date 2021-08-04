@@ -1,44 +1,3 @@
-/*
-let imgUrl = "";
-let name = '';
-class Produit  {
-  static createCard() {
-   document.getElementById("produitList").innerHTML = `<div class='col-12 col-lg-2 mx-1 mt-4 shadow '> 
-   <div class='card text-center cardstyling'> 
-     <img src="${imageUrl}" alt="${name}"  class='card-img-top img-fluid  cardimg''></img> 
-       <div class='card-body'> <h5 class='card-title '>  </h5> 
-       <p class='card-text'>${name} </p>      
-       <a href='produit.html' class=' btn btn-primary ml-5 stretched-link \'>Voir plus</a> 
-       <i class="fas fa-cart-plus cartplus"></i> 
-       </div> 
-   </div> 
- </div> `
- }
-  
- }
-
-*/
-
-// listCard();
-
-
-
-
-/*
-
-for (let items of teddies) {
-  Produit.createCard();
-}
-
-let myCart = [];
-let myCartTotalItems = myCart.length;
-
-function addItemCart(item) { myCart.push(item) };
-function removeItemCart(item) { myCart.unshift(item) };
-
- */
-
-
 
 if (localStorage.cart == undefined){ localStorage.cart = ""}
 
@@ -72,7 +31,7 @@ async function listCard() {
   }
 }
 listCard();
-
+// Panier ICON Event LISTENER
 function eventListenerProduits(event) {
   getProduit.addEventListener("click", addingProduits)
 }

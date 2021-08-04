@@ -34,7 +34,7 @@ function addingProduits(params) {
   clickedItemPath = params.path[0].outerHTML.replace(/\s/g, '') ;
   let clickereplaced = clickedItemPath;  
   clickereplaced;   
-  if ( clickedItemPath.replace('cartpageproduit', '') === '<iclass=\"fasfa-cart-pluscartplusmx-sm-3\"aria-hidden=\"true\"></i>') {      
+  if ( clickedItemPath.replace('cartpageproduit', '') === '<iclass=\"fasfa-cart-pluscartplusmx-sm-3\"aria-hidden=\"true\"></i>') { console.log('Clicked Ajouter Panier')     
         if (clickedItemPath === '<iclass="fasfa-cart-pluscartpluscartpageproduitmx-sm-3"aria-hidden="true"></i>') {   
           let child = params.path[2].children[0].children[1].children[3].children[0].lastElementChild.textContent;
           child;
@@ -53,17 +53,16 @@ function addingProduits(params) {
     console.log('myCart', myCart);  
   }
  else {
-    if(clickedItemPath === '<ahref=\"html/produit.html\"class=\"btnbtn-primaryml-5stretched-linkmx-sm-1produitlink\">Voirplus</a>'){                 
+    
+    if(clickedItemPath === '<ahref=\"html/produit.html\"class=\"btnbtn-primaryml-5stretched-linkmx-sm-1produitlink\">Voirplus</a>'){    console.log('Clicked Voir Plus')             
       myStorage.push(params.path[2].children[1].children[0].textContent.replace(/\s/g, ''));
       localStorage.produitClicked = myStorage;
       console.log('myStorage' ,myStorage);
       console.log(params);      
     }
     else { 
-      let bebe = clickedItemPath.indexOf('<buttontype="button"class="btnbtn-primary"');
-      bebe;
-      
-      if(clickedItemPath.indexOf('<buttontype="button"class="btnbtn-primary"') == 0) { if(myCart.length == 0) { myCart.push(`Item[${countPan()}]: `+ params.path[3].children[0].textContent + ' Color: '+ params.path[0].textContent );
+          
+      if(clickedItemPath.indexOf('<buttontype="button"class="btnbtn-primary"') == 0) { console.log('Clicked Ajouter Panier'); if(myCart.length == 0) { myCart.push(`Item[${countPan()}]: `+ params.path[3].children[0].textContent + ' Color: '+ params.path[0].textContent );
                        
         console.log(myCart);}
         else{myCart.push(`Item[${countPan()}]: `+ params.path[3].children[0].textContent + ' Color: '+ params.path[0].textContent );
@@ -72,7 +71,7 @@ function addingProduits(params) {
         console.log(myCart);
         }     
       }
-      else if(clickedItemPath.indexOf('<iclass="fasfa-cart-plus"aria-hidden="true"') == 0 ) {  
+      else if(clickedItemPath.indexOf('<iclass="fasfa-cart-plus"aria-hidden="true"') == 0 ) {  console.log('Clicked Ajouter Panier'); 
         myCart.push(`Item[${countPan()}]: `+ params.path[4].children[0].textContent + ' Color: '+ params.path[1].textContent );
           
        
@@ -90,9 +89,12 @@ function addingProduits(params) {
   }  
  ;
 } 
+
 let myPanierChange =[]; 
-function storageData () { console.log("functionActive")
-  
+
+//Sauvegarde des information passe par le client en changement de page
+
+function storageData () {  
   if (localStorage.cart == "" || undefined && myCart.length > 0){ localStorage.cart = JSON.stringify(myCart) } 
   else if(localStorage.cart != undefined && myCart.length == 0 ){localStorage.cart}
   else if(localStorage.cart != undefined || myPanierChange ){let a = JSON.parse(localStorage.cart);
