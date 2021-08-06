@@ -1,10 +1,10 @@
 //Card Html
-let productColour = "";
+let productColour = "";  
 function cardPanier(product, color, quantity) {
   var html = ` 
                   <li class="oneItemPanier"> 
                       <img src="${product.imageUrl}" alt="${product.name}" class='card-img-top cardimgpanier'> </img>
-                       <span class= 'textPanier'> ${product.name} - ${color}  </span> <span class='qtyPanier'><span class="prodUni">€ ${product.price} un.</span> qte. <span class="qty">${quantity}</span>    <i class="iconMinusPlus fas fa-plus"> <i class="iconMinusPlus fas fa-minus"></i> </i>  € <span class="productTotal" data-id="${product._id}">${prixItem}</span></span>
+                       <span class= 'textPanier'> ${product.name} - ${color}  </span> <span class='qtyPanier'><span class="prodUni">€ ${product.price/100},${String(product.price).substr(-2)}  un.</span> qte. <span class="qty">${quantity}</span>    <i class="iconMinusPlus fas fa-plus"> <i class="iconMinusPlus fas fa-minus"></i> </i>  € <span class="productTotal" data-id="${product._id}">${prixItem/100},${String(prixItem).substr(-2)}</span></span>
                   </li>    
                                       
                 
@@ -59,7 +59,7 @@ function productQuantity(item) {
 let j = -1;
 
 //Creating Card
-async function createPanierCard() {
+async function createPanierCard() { 
   let products = await getAllTeddies();
 
   function loopinCard(x, myItemsList) {
@@ -218,7 +218,7 @@ if (myCartStored != undefined) {
 
 function refreshTotal() {
   document.getElementById("totalCart").textContent =
-    "Total  €  " + localStorage.total;
+    "Total  €  " + (localStorage.total/100)+ `,${localStorage.total.substr(-2)}`;
 }
 setTimeout(refreshTotal, 500); //Ajuste Total Panier
 
@@ -312,7 +312,7 @@ function addOrRemovePanier(pathClicked) {
     let valueTotalPanier = parseInt(
       pathClicked.path[8].children[1].innerHTML.replace(/\s|:|Total|€/g, "")
     );
-    let valueTotalPanierTxt = "Total €" + String(valueTotalPanier - valueUnity);
+    let valueTotalPanierTxt = "Total €" + String(valueTotalPanier - valueUnity) + ",00";
     let x = 0;
     if (valueQty == 0) {
       if (localStorage.chiffrePanier >= 1) {
@@ -326,10 +326,11 @@ function addOrRemovePanier(pathClicked) {
     }
 
     if (valueQty > 0) {
-      pathClicked.path[2].children[3].innerHTML = valueTotalItem - valueUnity;
+      pathClicked.path[2].children[3].innerHTML = valueTotalItem - valueUnity + ",00";
       pathClicked.path[2].children[1].innerHTML = --valueQty;
       pathClicked.path[8].children[1].innerHTML = valueTotalPanierTxt;
       localStorage.total = valueTotalPanier - valueUnity;
+      if(valueQty == 0) {window.location.reload()}
       littleLoopPanier(0, 3);
     }
     if (localStorage.chiffrePanier >= 1) {
@@ -363,9 +364,9 @@ function addOrRemovePanier(pathClicked) {
     let valueTotalPanier = parseInt(
       pathClicked.path[7].children[1].innerHTML.replace(/\s|:|Total|€/g, "")
     );
-    let valueTotalPanierTxt = "Total €" + String(valueTotalPanier + valueUnity);
+    let valueTotalPanierTxt = "Total €" + String(valueTotalPanier + valueUnity) + ",00"; //Aucun produit travail avec des centimes actuelmente (Sinon je ferais ((valueTotalItem*100) + (valueUnity(*100))/100 ',((valueTotalItem*100) + (valueUnity(*100)).substr(-2)'
 
-    pathClicked.path[1].children[3].innerHTML = valueTotalItem + valueUnity;
+    pathClicked.path[1].children[3].innerHTML = valueTotalItem + valueUnity + ",00";
     pathClicked.path[1].children[1].innerHTML = ++valueQty;
     pathClicked.path[7].children[1].innerHTML = valueTotalPanierTxt;
     localStorage.total = valueTotalPanier + valueUnity;

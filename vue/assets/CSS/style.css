@@ -103,7 +103,7 @@ body {
 }
 .cartpageproduit {
   position: absolute !important;
-  left: 66% !important;
+  left: 83% !important;
   top: 23% !important;
   display: flex !important;
   justify-content: center;
@@ -121,6 +121,17 @@ body {
 #itemsPanier{
   margin-top: 3%;
 
+}
+#commander{
+  width: 99%;
+}
+#inputEmail4
+{
+  width: 98.5%;
+}
+#inputVille
+{
+  width: 98.5%;
 }
 .oneItemPanier{
   display: flex;
@@ -726,10 +737,115 @@ progress {
   margin-right: auto;
   margin-left: auto;
 }
-
+@media (max-width: 1336px){
+  li > button {
+    font-size: 2.5rem !important;
+  }
+  .optionschoix{
+    font-size: 2rem;
+  }
+  #produitPage{
+    height: 1175px !important;
+  }
+  .cartpageproduit{
+    position: relative !important;
+    left: 81% !important;
+    top: -58% !important;
+    display: flex !important
+  }
+  .orderPageText{
+    font-size: 3rem;
+  }
+}
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
+  }
+
+  
+  
+  .colordefault{
+    font-size: 1.5rem;
+
+    }
+  #totalCart{
+    font-size: 2rem;  
+  }
+  .textPanier{
+    font-size: 2rem;
+    margin-left: -5%;
+  }
+  .qtyPanier{
+    font-size: 2rem;
+  }
+  .prodUni {
+    font-size: 1.8rem;
+  }
+  .iconMinusPlus
+  {
+    font-size: 3rem;
+  }
+  form{
+    margin-top: 10%;
+  }
+  .formulaire{
+    width: 98%;
+    margin-left: 1% !important;
+  }
+  #prenom{    
+    line-height: 4rem;
+    font-size: 3rem;
+  }
+  #nomfamille{    
+    line-height: 4rem;
+    font-size: 3rem;
+  }
+  #inputEmail4{
+    line-height: 4rem;
+    font-size: 3rem;
+  }
+  #inputAddress{
+    line-height: 4rem;
+    font-size: 3rem;
+  }
+  #inputAddress2{
+    line-height: 4rem;
+    font-size: 3rem;
+  }
+  #inputVille{  
+    line-height: 4rem;
+    font-size: 3rem;    
+  }
+  #inputCodePostal{  
+    line-height: 4rem;
+    font-size: 3rem;    
+  }
+  #gridCheck{
+    line-height: 4rem;
+    font-size: 4rem;
+    margin-left: 30%;
+    margin-bottom: 5%;
+  }
+  #commander{
+    line-height: 4rem;
+    font-size: 3rem; 
+  }
+  .form-check-label{
+    font-size: 3rem;
+    padding-top: 1%;
+  }
+  .row > * { 
+    font-size: 2rem;
+  }
+  .navheader i { 
+    font-size:4rem; 
+    margin-left: -12% !important;
+    padding-left: 7%;
+  }
+  #panierHeader {    
+    margin-left: 15px;
+    font-size: 2.0rem;
+    margin-top: -2px;    
   }
 }
 @media (min-width: 768px) {
@@ -739,9 +855,14 @@ progress {
 }
 @media (min-width: 992px) {
   .container-lg, .container-md, .container-sm, .container {
-    max-width: 960px;
+    max-width: 960px;    
   }
+  .col-lg-6 { 
+    width: 90% !important;
+    height: 100%; 
+  } 
 }
+
 @media (min-width: 1200px) {
   .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1140px;
@@ -7829,7 +7950,7 @@ textarea.form-control-lg {
   .mx-sm-0 {
     margin-right: 0 !important;
     margin-left: 0 !important;
-    height: 345px !important;
+    height: 63% !important; 
     
   }
 
